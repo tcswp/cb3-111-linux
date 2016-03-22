@@ -32,5 +32,5 @@ The GPT won't be affected as there is a protective MBR right before it that we a
 Before rebooting recompile your kernel with `CONFIG_MMC_BLOCK_MINORS` set to a number >= the total number of partitions.
 
 ##To do:
-fix sound problem
+- [ ] fix sound problem
 
