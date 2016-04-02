@@ -29,7 +29,7 @@ grub-install --modules="part_msdos part_gpt" /dev/mmcblk0
 ```
 The GPT won't be affected as there is a protective MBR right before it that we are writing to. GRUB will put Stage1.5 in the `ef02` partition. If you don't specify the modules, you'll get dropped at GRUB rescue. My best guess is that this is because Stage1 doesn't normally load the modules, it jumps to Stage1.5 directly after it which loads them, but because Stage1.5 is now further down the partition table, it can't get to it. Loading the modules manually lets Stage1 find Stage1.5.
 
-Before rebooting recompile your kernel with `CONFIG_M MC_BLOCK_MINORS` set to a number >= the total number of partitions.
+Before rebooting recompile your kernel with `CONFIG_MMC_BLOCK_MINORS` set to a number >= the total number of partitions.
 
 ##sound problem
 Some have had issues with getting the sound working while others' sound works fine out of the box. In my case, the byt-max98090 sound card was not the default sink on PulseAudio. Once it was changed, sound worked perfectly. You can change it by running
