@@ -1,4 +1,4 @@
-# cb3-111-linux
+# Linux on the Acer CB3-111
 
 Here's how I got legacy boot working and Arch Linux running on the Acer CB3-111 Chromebook without voiding the warranty i.e., opening it up and pulling the write-protect screw. This will probably work for other Bay Trail Chromebooks as well.
 
@@ -29,14 +29,11 @@ grub-install --modules="part_msdos part_gpt" /dev/mmcblk0
 ```
 The GPT won't be affected as there is a protective MBR right before it that we are writing to. GRUB will put Stage1.5 in the `ef02` partition. If you don't specify the modules, you'll get dropped at GRUB rescue. My best guess is that this is because Stage1 doesn't normally load the modules, it jumps to Stage1.5 directly after it which loads them, but because Stage1.5 is now further down the partition table, it can't get to it. Loading the modules manually lets Stage1 find Stage1.5.
 
-Before rebooting recompile your kernel with `CONFIG_MMC_BLOCK_MINORS` set to a number >= the total number of partitions.
+Before rebooting make sure your kernel has been compiled with `CONFIG_MMC_BLOCK_MINORS` set to a number >= the total number of partitions, otherwise your system will only recognize the first few lower partitions.
 
-##sound problem
 Some have had issues with getting the sound working while others' sound works fine out of the box. In my case, the byt-max98090 sound card was not the default sink on PulseAudio. Once it was changed, sound worked perfectly. You can change it by running
 ```
 pactl set-default-sink alsa_output.platform-byt-max98090.analog-stereo
 ```
 or you can install `pavucontrol` and set the byt-max98090 as the fallback device (green check button) under the Output Devices tab.
-##To do:
-- [x] fix sound problem
 
